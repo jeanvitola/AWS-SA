@@ -3,7 +3,7 @@
 
 
 
-# Prograamación orientada a objetos
+# Programación orientada a objetos
 
 
 
