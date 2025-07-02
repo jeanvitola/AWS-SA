@@ -1,0 +1,46 @@
+ ¿Qué hace aws s3api create-bucket?
+Este comando de AWS CLI crea un nuevo bucket de almacenamiento en Amazon S3. Un bucket es un contenedor de objetos (archivos), como carpetas en la nube. Cada bucket debe tener un nombre único global.
+
+🧱 Estructura general del comando
+bash
+Copiar
+Editar
+aws s3api create-bucket \
+  --bucket <nombre-del-bucket> \
+  --region <región> \
+  [--create-bucket-configuration LocationConstraint=<región>]
+📌 Parámetros clave:
+Parámetro	Descripción
+--bucket	El nombre del bucket. Debe ser único en todo AWS, no solo en tu cuenta.
+--region	Región AWS donde quieres crear el bucket (ej. us-east-1, us-west-2).
+--create-bucket-configuration	Requerido si la región NO es us-east-1. Define explícitamente la región del bucket.
+
+⚠️ Importante sobre us-east-1
+AWS hace una excepción con la región us-east-1 (N. Virginia). En esa región NO debes usar --create-bucket-configuration.
+
+✅ Correcto en us-east-1:
+bash
+Copiar
+Editar
+aws s3api create-bucket --bucket my-bucket --region us-east-1
+✅ Correcto en otra región (ej. us-west-2):
+bash
+Copiar
+Editar
+aws s3api create-bucket \
+  --bucket my-bucket \
+  --region us-west-2 \
+  --create-bucket-configuration LocationConstraint=us-west-2
+🧪 ¿Qué pasa si el nombre ya existe?
+AWS no permite dos buckets con el mismo nombre en toda la nube, ni siquiera en cuentas diferentes.
+
+Si alguien más ya creó un bucket llamado fotos-2025, tú no podrás usarlo, aunque esté en otra región.
+
+🛡️ Recomendaciones de seguridad al crear un bucket
+Después de crear el bucket, se recomienda:
+
+Bloquear el acceso público por defecto.
+
+Habilitar el versionado para proteger contra pérdida de datos.
+
+Aplicar políticas de bucket si vas a restringir acceso o permitirlo a ciertos roles.
